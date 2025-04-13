@@ -21,5 +21,5 @@ class Ship:
         self.rect = self.image.get_rect()
         self.rect.midbottom = self.screen_rect.midbottom
 
-def draw(self):
-    self.screen.blit(self.image, self.rect)        
+    def draw(self):
+        self.screen.blit(self.image, self.rect)        

@@ -20,20 +20,27 @@ class AlienFleet:
         alien_h = self.settings.alien_h
         screen_w = self.settings.screen_w
         screen_h = self.settings.screen_h
-        
-        fleet_w, fleet_h = self.calculate_fleet_size(alien_w, screen_w, alien_h, screen_h)
-        x_offset, y_offset = self.calculate_offsets(alien_w, alien_h, screen_w, fleet_w, fleet_h)
-        
-        self._create_rectangle_fleet(alien_w, alien_h, fleet_w, fleet_h, x_offset, y_offset)
 
-    def _create_rectangle_fleet(self, alien_w, alien_h, fleet_w, fleet_h, x_offset, y_offset):
+        # Calculate number of aliens that can fit
+        fleet_w = screen_w // (alien_w * 2)
+        fleet_h = (screen_h // 2) // (alien_h * 2)
+
+        # Center offset to align the fleet nicely
+        x_offset = (screen_w - (fleet_w * alien_w)) // 2
+        y_offset = (screen_h // 2 - (fleet_h * alien_h)) // 2
+
+        self._create_cross_fleet(alien_w, alien_h, fleet_w, fleet_h, x_offset, y_offset)    
+
+    def _create_cross_fleet(self, alien_w, alien_h, fleet_w, fleet_h, x_offset, y_offset):
+        center_col = fleet_w // 2
+        center_row = fleet_h // 2
+
         for row in range(fleet_h):
-            for col in range(fleet_w):   #col = column
-                current_x = alien_w * col + x_offset
-                current_y = alien_h * row + y_offset
-                if col % 2 == 0 or row % 2 == 0:
-                    continue
-                self._create_alien(current_x, current_y)
+            for col in range(fleet_w):
+                if row == center_row or col == center_col:
+                    current_x = alien_w * col + x_offset
+                    current_y = alien_h * row + y_offset
+                    self._create_alien(current_x, current_y)
 
     def calculate_offsets(self, alien_w, alien_h, screen_w, fleet_w, fleet_h):
         half_screen = self.settings.screen_h//2

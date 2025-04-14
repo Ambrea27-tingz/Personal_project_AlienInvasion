@@ -5,15 +5,14 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from alien_invasion import AlienInvasion
   
-
 class AlienFleet:
+    
     def __init__(self, game: 'AlienInvasion'):
         self.game = game
         self.settings = game.settings
         self.fleet = pygame.sprite.Group()
         self.fleet_direction = self.settings.fleet_direction
         self.fleet_drop_speed = self.settings.fleet_drop_speed
-
         self.create_fleet()
 
     def create_fleet(self):
@@ -88,4 +87,14 @@ class AlienFleet:
         alien: 'Alien'
         for alien in self.fleet:
             alien.draw_alien()
+    
+    def check_collisions(self, other_group):
+        return pygame.sprite.groupcollide(self.fleet, other_group, True, True)
 
+
+    def check_fleet_bottom(self):
+        alien: 'Alien'
+        for alien in self.fleet:
+            if alien.rect.bottom >= self.settings.screen_h:
+                return True
+        return False

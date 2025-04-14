@@ -22,8 +22,9 @@ from alien_fleet import AlienFleet
 from time import sleep
 
 class AlienInvasion:
-    
+    """Main class that manages the game assets and behavior.""" 
     def __init__(self):
+        """Prepare the game, and create game resources."""
         pygame.init()
         self.settings = Settings()
         self.game_stats = GameStats(self.settings.starting_ship_count)
@@ -59,7 +60,7 @@ class AlienInvasion:
         
 
     def run_game(self):
-        #Game loop
+        """Start the main loop for the game."""
         while self.running:
             self._check_events()   
             if self.game_active:
@@ -112,12 +113,14 @@ class AlienInvasion:
 
 
     def _update_screen(self):
+        """Update images on the screen, and flip to the new screen."""
         self.screen.blit(self.bg, (0, 0)) 
         self.ship.draw()  
         self.alien_fleet.draw()
         pygame.display.flip()
 
     def _check_events(self):
+        """React to keypresses and mouse events."""  
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False

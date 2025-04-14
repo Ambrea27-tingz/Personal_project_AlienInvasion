@@ -24,9 +24,13 @@ class AlienFleet:
 
         fleet_horizontal_space = fleet_w * alien_w
         x_offset = int((screen_w - fleet_horizontal_space)// 2)
+        
         #col = column
+        
         for col in range(fleet_w):
             current_x = alien_w * col + x_offset
+            if col % 2 == 0:
+                continue
             self._creat_alien(current_x, 10)
 
 

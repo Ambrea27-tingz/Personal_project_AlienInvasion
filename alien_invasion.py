@@ -1,3 +1,16 @@
+""" 
+Lab13_awilliams2_2.py / CSCI 1511
+
+Title: Alien Invasion
+
+Discription: Alien Invasion is a creative game where the player controls a spaceship
+and tries to annihilate neigboring enemies by shooting down the invading aliens. 
+The game is built using Pygame.
+
+Author: Ambrea Williams
+
+Date: 2025-04-13
+"""
 import sys
 import pygame
 from settings import Settings

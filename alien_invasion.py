@@ -35,10 +35,13 @@ class AlienInvasion:
         self.impact_sound = pygame.mixer.Sound(self.settings.impact_sound)
         self.impact_sound.set_volume(0.7)
 
-        self.ship = Ship(self, Arsenal(self))
+        self.ship = Ship(self, Arsenal(self)) 
         self.alien_fleet = AlienFleet(self)
         self.alien_fleet.create_fleet()
         self.game_active = True
+
+        self.game_stats = GameStats(self.settings.starting_ship_count)
+
 
         
 

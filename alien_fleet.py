@@ -1,3 +1,4 @@
+import random
 import pygame
 from alien import Alien
 from typing import TYPE_CHECKING
@@ -8,103 +9,118 @@ if TYPE_CHECKING:
 class AlienFleet:
     
     def __init__(self, game: 'AlienInvasion'):
+        """Initialize the alien fleet with reference to the main game instance."""
         self.game = game
         self.settings = game.settings
-        self.fleet = pygame.sprite.Group()
         self.fleet_direction = self.settings.fleet_direction
-        self.fleet_drop_speed = self.settings.fleet_drop_speed
-        self.create_fleet()
+        self.aliens = pygame.sprite.Group()
+        self.layout = "scatter"
 
-    def create_fleet(self):
-        alien_w = self.settings.alien_w
-        alien_h = self.settings.alien_h
-        screen_w = self.settings.screen_w
-        screen_h = self.settings.screen_h
+       
+        self.create_fleet(layout=self.layout, num_aliens=30)
+        
 
-        # Calculate number of aliens that can fit
-        fleet_w = screen_w // (alien_w * 2)
-        fleet_h = (screen_h // 2) // (alien_h * 2)
+    def create_fleet(self, layout="grid", num_aliens=20):
+        self.layout = layout  # store the layout for use in update logic, etc.
 
-        # Center offset to align the fleet nicely
-        x_offset = (screen_w - (fleet_w * alien_w)) // 2
-        y_offset = (screen_h // 2 - (fleet_h * alien_h)) // 2
+        if layout == "grid":
+            fleet_w, fleet_h = self.calculate_fleet_size(
+                self.settings.alien_w, self.settings.screen_w,
+                self.settings.alien_h, self.settings.screen_h
+            )
+            x_offset, y_offset = self.calculate_offsets(
+                self.settings.alien_w, self.settings.alien_h,
+                self.settings.screen_w, fleet_w, fleet_h
+            )
+            self._create_rectangle_fleet(
+                self.settings.alien_w, self.settings.alien_h,
+                fleet_w, fleet_h, x_offset, y_offset
+            )
 
-        self._create_cross_fleet(alien_w, alien_h, fleet_w, fleet_h, x_offset, y_offset)    
-
-    def _create_cross_fleet(self, alien_w, alien_h, fleet_w, fleet_h, x_offset, y_offset):
-        center_col = fleet_w // 2
-        center_row = fleet_h // 2
-
-        for row in range(fleet_h):
-            for col in range(fleet_w):
-                if row == center_row or col == center_col:
-                    current_x = alien_w * col + x_offset
-                    current_y = alien_h * row + y_offset
-                    self._create_alien(current_x, current_y)
-
-    def calculate_offsets(self, alien_w, alien_h, screen_w, fleet_w, fleet_h):
-        half_screen = self.settings.screen_h//2
-        fleet_horizontal_space = fleet_w * alien_w
-        fleet_vertical_space = fleet_h * alien_h
-        x_offset = int((screen_w - fleet_horizontal_space)// 2)
-        y_offset = int((half_screen - fleet_vertical_space)// 2)
-        return x_offset,y_offset
-
-
-    def calculate_fleet_size(self, alien_w, screen_w, alien_h, screen_h):
-        fleet_w = (screen_w//alien_w)
-        fleet_h = ((screen_h /2)//alien_h)
-
-        if fleet_w % 2 == 0:
-            fleet_w -= 1
-        else:
-            fleet_w -= 2
-
-        if fleet_h % 2 == 0:
-            fleet_h -= 1
-        else:
-            fleet_h -= 2
+        elif layout == "scatter":
+            self.create_scatter_fleet(num_aliens)    
 
         
 
-        return int(fleet_w), int(fleet_h)
+    def _create_rectangle_fleet(self, alien_w, alien_h, fleet_w, fleet_h, x_offset, y_offset):
+        for row in range(fleet_h):
+            for col in range(fleet_w):
+                x = x_offset + col * alien_w
+                y = y_offset + row * alien_h
+                self._create_alien(x, y)
 
+    def create_scatter_fleet(self, num_aliens=20, padding=50):
+        """Randomly scatter aliens across the top third of the screen."""
+        screen_rect = self.game.screen.get_rect()
+        alien = Alien(self, 0, 0)
+        alien_w, alien_h = alien.rect.size
+
+        for _ in range(min(num_aliens, 100)):
+            x = random.randint(padding, screen_rect.width - alien_w - padding)
+            y = random.randint(padding, screen_rect.height // 3)
+            self._create_alien(x, y)
+            
+            
+
+    def calculate_offsets(self, alien_w, alien_h, screen_w, fleet_w, fleet_h):
+        x_offset = (screen_w - (fleet_w * alien_w)) // 2
+        y_offset = alien_h
+        return x_offset, y_offset
+
+
+
+    def calculate_fleet_size(self, alien_w, screen_w, alien_h, screen_h):
+        available_space_x = screen_w - 2 * alien_w
+        available_space_y = screen_h // 2
+        num_cols = available_space_x // (2 * alien_w)
+        num_rows = available_space_y // (2 * alien_h)
+        return num_cols, num_rows
+    
     def _create_alien(self, current_x: int, current_y: int):
-        new_alien = Alien(self, current_x, current_y)
-
-        self.fleet.add(new_alien)
+        alien = Alien(self, current_x, current_y)
+        self.aliens.add(alien)
 
     def _check_fleet_edges(self):
-        alien: Alien
-        for alien in self.fleet:
+        if not self.aliens:
+            return
+
+        for alien in self.aliens:
             if alien.check_edges():
                 self._drop_alien_fleet()
-                self.fleet_direction *= -1
                 break
                 
     def _drop_alien_fleet(self):
-        for alien in self.fleet:
-           alien.y += self.fleet_drop_speed
+        for alien in self.aliens.sprites():
+            try:
+                alien.rect.y = int(alien.rect.y + self.settings.fleet_drop_speed)
+            except Exception as e:
+                print(f"[ERROR] Failed to update alien y-pos: {e}")
+        self.fleet_direction *= -1
+
                      
     def update_fleet(self):
         self._check_fleet_edges()
-        self.fleet.update()
+        self.aliens.update()
+        
 
     def draw(self):
-        alien: 'Alien'
-        for alien in self.fleet:
+        """Draw all aliens on the screen."""
+        for alien in self.aliens.sprites():
             alien.draw_alien()
-    
+
     def check_collisions(self, other_group):
-        return pygame.sprite.groupcollide(self.fleet, other_group, True, True)
+        """Check for collisions between the fleet and another group of sprites."""
+        return pygame.sprite.groupcollide(self.aliens, other_group, True, True)
 
 
     def check_fleet_bottom(self):
+        """Check if any alien has reached the bottom of the screen."""
         alien: 'Alien'
-        for alien in self.fleet:
+        for alien in self.aliens:
             if alien.rect.bottom >= self.settings.screen_h:
                 return True
         return False
 
     def check_destroyed_status(self):
-        return not self.fleet
+        """Check if all aliens in the fleet have been destroyed."""
+        return not self.aliens

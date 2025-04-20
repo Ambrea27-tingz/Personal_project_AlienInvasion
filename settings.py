@@ -38,6 +38,7 @@ class Settings:
         self.button_font_size = 48
         self.HUD_font_size = 20
         self.font_file = Path.cwd() / 'Assets' / 'Fonts' / 'Silkscreen'/'Silkscreen-Bold.ttf'
+       
 
     def initialize_dynamic_settings(self):
              """Initialize settings that change throughout the game."""
@@ -48,6 +49,8 @@ class Settings:
              self.bullet_h = 80
              self.bullet_speed = 7
              self.bullet_amount = 5
+             
+             
 
              self.alien_speed = 80
              self.fleet_drop_speed = 40

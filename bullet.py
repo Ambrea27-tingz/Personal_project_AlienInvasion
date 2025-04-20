@@ -7,6 +7,7 @@ if TYPE_CHECKING:
 
 class Bullet(Sprite):
     def __init__(self, game: 'AlienInvasion'):
+        """Initialize a bullet object at the ship's current position."""
         super().__init__()
        
         self.screen = game.screen
@@ -22,10 +23,11 @@ class Bullet(Sprite):
         self.y = float(self.rect.y)
 
     def update(self):
-        """Move the bullet up the screen."""
+        """Move the bullet up the screen and update its position."""
         self.y -= self.settings.bullet_speed
         self.rect.y = self.y
 
     def draw(self):
+        """Draw the bullet to the screen."""
         self.screen.blit(self.image, self.rect)
         

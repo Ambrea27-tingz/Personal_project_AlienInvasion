@@ -41,7 +41,7 @@ class Alien(Sprite):
         screen_w = self.boundaries.width
         screen_h = self.boundaries.height
 
-        # === Soft bounce zone ===
+        #Soft bounce zone
         horizontal_margin = 20
         vertical_ceiling = 0
         vertical_floor = screen_h // 1.8
@@ -55,12 +55,12 @@ class Alien(Sprite):
             self.velocity_x *= -1
 
         # Bounce Y (optional: control how deep they go)
-        if self.center_y <= vertical_ceiling:
-            self.center_y = vertical_ceiling
-            self.velocity_y *= -1
-        elif self.center_y + self.rect.height >= vertical_floor:
-            self.center_y = vertical_floor - self.rect.height
-            self.velocity_y *= -1
+        #if self.center_y <= vertical_ceiling:
+            #self.center_y = vertical_ceiling
+            #self.velocity_y *= -1
+        #elif self.center_y + self.rect.height >= vertical_floor:
+            #self.center_y = vertical_floor - self.rect.height
+            #self.velocity_y *= -1
 
         # Apply updated position
         self.rect.x = int(self.center_x)

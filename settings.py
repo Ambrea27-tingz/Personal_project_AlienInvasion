@@ -1,6 +1,7 @@
 from pathlib import Path
 class Settings:
     
+    
     def __init__(self):
         """Initialize the game's static settings."""
         self.name: str = "Alien Invasion"

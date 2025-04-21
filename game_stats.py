@@ -6,6 +6,14 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from alien_invasion import AlienInvasion
 
+from pathlib import Path
+import json
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from alien_invasion import AlienInvasion
+
 class GameStats():
 
     def __init__(self, game: 'AlienInvasion'):

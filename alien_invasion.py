@@ -22,13 +22,17 @@ from alien_fleet import AlienFleet
 from time import sleep
 from button import Button
 from hud import HUD
+from button import Button
+from hud import HUD
 
 class AlienInvasion:
+    
     
     def __init__(self):
         """Initialize the game instance and set up resources.""" 
         pygame.init()
         self.settings = Settings()
+        self.settings.initialize_dynamic_settings()
         self.settings.initialize_dynamic_settings()
 
         self.screen = pygame.display.set_mode(
@@ -41,6 +45,8 @@ class AlienInvasion:
                 (self.settings.screen_w, self.settings.screen_h)
                 )
 
+        self.game_stats = GameStats(self)
+        self.HUD = HUD(self)
         self.game_stats = GameStats(self)
         self.HUD = HUD(self)
         self.running = True
@@ -72,7 +78,7 @@ class AlienInvasion:
         
 
     def run_game(self):
-        """Start the main loop for the game."""
+        #Game loop
         while self.running:
             self._check_events()    
             if self.game_active:
@@ -97,9 +103,17 @@ class AlienInvasion:
             self.impact_sound.fadeout(500)
             self.game_stats.update(collisions)
             self.HUD.update_scores()
+            self.game_stats.update(collisions)
+            self.HUD.update_scores()
         
         if self.alien_fleet.check_destroyed_status():  
             self._reset_level()
+            self.settings.increase_difficulty()
+            self.game_stats._update_level()
+            self.HUD.update_level()
+            
+                
+
             self.settings.increase_difficulty()
             self.game_stats._update_level()
             self.HUD.update_level()
@@ -115,6 +129,8 @@ class AlienInvasion:
             sleep(0.5)
         else:
             self.game_active = False
+
+
 
 
     def _reset_level(self):
@@ -150,6 +166,12 @@ class AlienInvasion:
             self.play_button.draw()
             pygame.mouse.set_visible(True)
         
+        self.HUD.draw()
+        
+        if not self.game_active:
+            self.play_button.draw()
+            pygame.mouse.set_visible(True)
+        
         pygame.display.flip()
 
     def _check_events(self):
@@ -161,6 +183,7 @@ class AlienInvasion:
                 pygame.mixer.music.stop()
                 pygame.quit()
                 sys.exit()
+            elif event.type == pygame.KEYDOWN and self.game_active == True:
             elif event.type == pygame.KEYDOWN and self.game_active == True:
                 self._check_keydown_events(event)
             elif event.type == pygame.KEYUP:
@@ -187,6 +210,7 @@ class AlienInvasion:
             self.ship.moving_right = True
         elif event.key == pygame.K_LEFT:
             self.ship.moving_left = True 
+            self.ship.moving_left = True 
         elif event.key == pygame.K_SPACE:
             if self.ship.fire():
                 self.laser_sound.play()
@@ -194,7 +218,10 @@ class AlienInvasion:
         elif event.key == pygame.K_q:
             self.running = False
             self.game_stats.save_scores()
+            self.game_stats.save_scores()
             pygame.quit()
+            sys.exit()  
+     
             sys.exit()  
      
        
@@ -202,3 +229,4 @@ class AlienInvasion:
 if __name__ == '__main__':
     ai = AlienInvasion()
     ai.run_game()
+

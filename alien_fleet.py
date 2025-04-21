@@ -21,7 +21,7 @@ class AlienFleet:
         
 
     def create_fleet(self, layout="grid", num_aliens=20):
-        self.layout = layout  # store the layout for use in update logic, etc.
+        self.layout = layout  
 
         if layout == "grid":
             fleet_w, fleet_h = self.calculate_fleet_size(

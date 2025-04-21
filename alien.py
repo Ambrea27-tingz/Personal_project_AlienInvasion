@@ -46,23 +46,14 @@ class Alien(Sprite):
         vertical_ceiling = 0
         vertical_floor = screen_h // 1.8
 
-    # Bounce X
+        # Bounce across the screen
         if self.center_x <= horizontal_margin:
-            self.center_x = horizontal_margin  # stop it from going too far
+            self.center_x = horizontal_margin  # stops it from going too far
             self.velocity_x *= -1
         elif self.center_x + self.rect.width >= screen_w - horizontal_margin:
             self.center_x = screen_w - horizontal_margin - self.rect.width
             self.velocity_x *= -1
 
-        # Bounce Y (optional: control how deep they go)
-        #if self.center_y <= vertical_ceiling:
-            #self.center_y = vertical_ceiling
-            #self.velocity_y *= -1
-        #elif self.center_y + self.rect.height >= vertical_floor:
-            #self.center_y = vertical_floor - self.rect.height
-            #self.velocity_y *= -1
-
-        # Apply updated position
         self.rect.x = int(self.center_x)
         self.rect.y = int(self.center_y)
 

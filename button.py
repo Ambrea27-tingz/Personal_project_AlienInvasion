@@ -28,14 +28,13 @@ class Button:
 
     def draw(self):
         """Draw the button with a glowing edge and its message to the screen."""
-    # Draw a glowing border slightly larger than the button itself
         glow_rect = self.rect.inflate(10, 10)
         pygame.draw.rect(self.screen, self.settings.button_glow_color, glow_rect, border_radius=12)
 
-        # Draw the button background with rounded corners
+        #button background with rounded corners
         pygame.draw.rect(self.screen, self.settings.button_color, self.rect, border_radius=10)
 
-        # Draw the button text
+        #button text
         self.screen.blit(self.msg_image, self.msg_image_rect)
 
     def check_click(self, mouse_pos):

@@ -9,12 +9,11 @@ class Settings:
         #frames per second
         self.FPS = 60
         self.bg_file = Path.cwd() / 'Assets' / 'images' / 'Starbasesnow.png'
-        #self.difficulty_scale = 1.2
         self.scores_file = Path.cwd() / 'Assets' / 'file' / 'scores.json'
 
         self.ship_file = Path.cwd() / 'Assets' / 'images' / 'ship2(no bg).png'
-        self.ship_w = 90          #40
-        self.ship_h = 90          #60
+        self.ship_w = 90          
+        self.ship_h = 90          
       
 
         self.bullet_file = Path.cwd() / 'Assets' / 'images' / 'laserBlast.png'
@@ -25,7 +24,7 @@ class Settings:
         
 
         self.alien_file = Path.cwd() / 'Assets' / 'images' / 'enemy_4.png'
-        self.alien_w  = 40 #originally 80
+        self.alien_w  = 40 
         self.alien_h = 40  
         self.fleet_direction = 1 
         self.fleet_drop_speed = 10
@@ -33,7 +32,7 @@ class Settings:
         self.button_w = 200
         self.button_h = 50
         self.button_color = (76, 0, 153)           # Deep purple
-        self.button_glow_color = (138, 43, 226)    # Bright violet (outer glow)
+        self.button_glow_color = (138, 43, 226)    # Bright violet (outline glow)
         self.text_color = (173, 216, 230)          # Light cyan text
         
         self.button_font_size = 48
@@ -56,7 +55,7 @@ class Settings:
              self.alien_points = 50
 
     def increase_difficulty(self):
-        """Increase game difficulty by adjusting speed and other dynamic settings."""
+        """Increase game difficulty by adjusting speed."""
         self.ship_speed *= 1.1
         self.bullet_speed *= 1.15
         self.alien_speed *= 1.3

@@ -74,7 +74,7 @@ class AlienInvasion:
     def run_game(self):
         """Start the main loop for the game."""
         while self.running:
-            self._check_events()    #Game loop
+            self._check_events()    
             if self.game_active:
                 self.ship.update()
                 self.alien_fleet.update_fleet()
@@ -91,7 +91,6 @@ class AlienInvasion:
     
         if self.alien_fleet.check_fleet_bottom():
             self._check_game_status()
-        #check collisions for projectiles and ship
         collisions = self.alien_fleet.check_collisions(self.ship.arsenal.arsenal)
         if collisions:
             self.impact_sound.play()
@@ -111,7 +110,7 @@ class AlienInvasion:
     def _check_game_status(self):
         """Evaluate the current status of the game"""
         if self.game_stats.ships_left > 0:
-            self.game_stats.ships_left -= 1 #win or loss conditions
+            self.game_stats.ships_left -= 1 #win or lose conditions
             self._reset_level()
             sleep(0.5)
         else:

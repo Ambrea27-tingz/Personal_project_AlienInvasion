@@ -9,7 +9,7 @@ class Settings:
         #frames per second
         self.FPS = 60
         self.bg_file = Path.cwd() / 'Assets' / 'images' / 'Starbasesnow.png'
-        self.difficulty_scale = 1.1
+        #self.difficulty_scale = 1.2
         self.scores_file = Path.cwd() / 'Assets' / 'file' / 'scores.json'
 
         self.ship_file = Path.cwd() / 'Assets' / 'images' / 'ship2(no bg).png'
@@ -57,8 +57,8 @@ class Settings:
 
     def increase_difficulty(self):
         """Increase game difficulty by adjusting speed and other dynamic settings."""
-        self.ship_speed *= self.difficulty_scale
-        self.bullet_speed *= self.difficulty_scale
-        self.alien_speed *= self.difficulty_scale
-        self.fleet_drop_speed *= self.difficulty_scale
+        self.ship_speed *= 1.1
+        self.bullet_speed *= 1.15
+        self.alien_speed *= 1.3
+        self.fleet_drop_speed *= 1.30
 

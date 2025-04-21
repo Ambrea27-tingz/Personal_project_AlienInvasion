@@ -52,6 +52,7 @@ class AlienInvasion:
         pygame.mixer.music.play(-1)  # -1 means loop forever
         self.laser_sound = pygame.mixer.Sound(self.settings.laser_sound)
         self.laser_sound.set_volume(0.7)
+        
 
         self.impact_sound = pygame.mixer.Sound(self.settings.impact_sound)
         self.impact_sound.set_volume(0.7)
@@ -60,6 +61,9 @@ class AlienInvasion:
         self.alien_fleet = AlienFleet(self)
         self.alien_fleet.aliens.empty()
         self.alien_fleet.create_fleet(layout="scatter", num_aliens=30)
+
+        self.level_up_sound = pygame.mixer.Sound('Assets/sound/level_up_sound1.mp3')
+        self.level_up_sound.set_volume(0.6)
         
         self.play_button = Button(self, 'Play')
         self.game_active = False
@@ -120,6 +124,8 @@ class AlienInvasion:
         self.alien_fleet.aliens.empty()
         self.alien_fleet.aliens.empty()
         self.alien_fleet.create_fleet(layout="scatter", num_aliens=30)
+        
+        self.level_up_sound.play()
       
 
        

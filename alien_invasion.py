@@ -12,6 +12,7 @@ Description: A simple game where the player controls a ship and shoots at aliens
 """
 import sys
 import pygame
+import pygame.mixer 
 from settings import Settings
 from game_stats import GameStats
 from ship import Ship
@@ -46,6 +47,9 @@ class AlienInvasion:
         self.clock = pygame.time.Clock()
 
         pygame.mixer.init()
+        pygame.mixer.music.load('Assets/sound/game_bg_sound.mp3')
+        pygame.mixer.music.set_volume(0.3)  # Adjust volume 0.0 - 1.0
+        pygame.mixer.music.play(-1)  # -1 means loop forever
         self.laser_sound = pygame.mixer.Sound(self.settings.laser_sound)
         self.laser_sound.set_volume(0.7)
 
@@ -149,6 +153,7 @@ class AlienInvasion:
             if event.type == pygame.QUIT:
                 self.running = False
                 self.game_stats.save_scores()
+                pygame.mixer.music.stop()
                 pygame.quit()
                 sys.exit()
             elif event.type == pygame.KEYDOWN and self.game_active == True:

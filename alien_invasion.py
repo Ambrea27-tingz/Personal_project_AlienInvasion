@@ -11,6 +11,7 @@ Description: A simple game where the player controls a ship and shoots at aliens
 
 """
 import sys
+import os
 import pygame
 import pygame.mixer 
 from settings import Settings
@@ -22,8 +23,6 @@ from alien_fleet import AlienFleet
 from time import sleep
 from button import Button
 from hud import HUD
-from button import Button
-from hud import HUD
 
 class AlienInvasion:
     
@@ -33,44 +32,42 @@ class AlienInvasion:
         pygame.init()
         self.settings = Settings()
         self.settings.initialize_dynamic_settings()
-        self.settings.initialize_dynamic_settings()
 
         self.screen = pygame.display.set_mode(
-            (self.settings.screen_w,self.settings.screen_h)
-            )
+            (self.settings.screen_w, self.settings.screen_h)
+        )
         pygame.display.set_caption(self.settings.name)
 
         self.bg = pygame.image.load(self.settings.bg_file)
-        self.bg = pygame.transform.scale(self.bg,
-                (self.settings.screen_w, self.settings.screen_h)
-                )
+        self.bg = pygame.transform.scale(
+            self.bg, (self.settings.screen_w, self.settings.screen_h)
+        )
 
-        self.game_stats = GameStats(self)
-        self.HUD = HUD(self)
         self.game_stats = GameStats(self)
         self.HUD = HUD(self)
         self.running = True
         self.clock = pygame.time.Clock()
 
         pygame.mixer.init()
-        pygame.mixer.music.load('Assets/sound/game_bg_sound.mp3')
-        pygame.mixer.music.set_volume(0.3)  # Adjust volume 0.0 - 1.0
-        pygame.mixer.music.play(-1)  # -1 means loop forever
+        bg_sound_path = os.path.join('Assets', 'sound', 'game_bg_sound.mp3')
+        pygame.mixer.music.load(bg_sound_path)
+        pygame.mixer.music.set_volume(0.3)
+        pygame.mixer.music.play(-1)
+
         self.laser_sound = pygame.mixer.Sound(self.settings.laser_sound)
         self.laser_sound.set_volume(0.7)
-        
 
         self.impact_sound = pygame.mixer.Sound(self.settings.impact_sound)
         self.impact_sound.set_volume(0.7)
 
-        self.ship = Ship(self, Arsenal(self)) 
+        self.ship = Ship(self, Arsenal(self))
         self.alien_fleet = AlienFleet(self)
-        self.alien_fleet.aliens.empty()
         self.alien_fleet.create_fleet(layout="scatter", num_aliens=30)
 
-        self.level_up_sound = pygame.mixer.Sound('Assets/sound/level_up_sound1.mp3')
+        level_up_sound_path = os.path.join('Assets', 'sound', 'level_up_sound1.mp3')
+        self.level_up_sound = pygame.mixer.Sound(level_up_sound_path)
         self.level_up_sound.set_volume(0.6)
-        
+
         self.play_button = Button(self, 'Play')
         self.game_active = False
 
@@ -91,29 +88,21 @@ class AlienInvasion:
 
 
     def _check_collisions(self):
-        """Detect and respond to collisions between game objects."""
         if self.ship.check_collisions(self.alien_fleet.aliens):
-            self._check_game_status() #Deduct one life
-    
+            self._check_game_status()
+
         if self.alien_fleet.check_fleet_bottom():
             self._check_game_status()
+
         collisions = self.alien_fleet.check_collisions(self.ship.arsenal.arsenal)
         if collisions:
             self.impact_sound.play()
             self.impact_sound.fadeout(500)
             self.game_stats.update(collisions)
             self.HUD.update_scores()
-            self.game_stats.update(collisions)
-            self.HUD.update_scores()
-        
-        if self.alien_fleet.check_destroyed_status():  
-            self._reset_level()
-            self.settings.increase_difficulty()
-            self.game_stats._update_level()
-            self.HUD.update_level()
-            
-                
 
+        if self.alien_fleet.check_destroyed_status():
+            self._reset_level()
             self.settings.increase_difficulty()
             self.game_stats._update_level()
             self.HUD.update_level()
@@ -137,9 +126,7 @@ class AlienInvasion:
         """Reset game elements for the start of a new level."""
         self.ship.arsenal.arsenal.empty()
         self.alien_fleet.aliens.empty()
-        self.alien_fleet.aliens.empty()
         self.alien_fleet.create_fleet(layout="scatter", num_aliens=30)
-        
         self.level_up_sound.play()
       
 
@@ -208,8 +195,7 @@ class AlienInvasion:
         if event.key == pygame.K_RIGHT:
             self.ship.moving_right = True
         elif event.key == pygame.K_LEFT:
-            self.ship.moving_left = True 
-            self.ship.moving_left = True 
+            self.ship.moving_left = True  
         elif event.key == pygame.K_SPACE:
             if self.ship.fire():
                 self.laser_sound.play()
@@ -217,11 +203,10 @@ class AlienInvasion:
         elif event.key == pygame.K_q:
             self.running = False
             self.game_stats.save_scores()
-            self.game_stats.save_scores()
             pygame.quit()
             sys.exit()  
      
-            sys.exit()  
+              
      
        
 

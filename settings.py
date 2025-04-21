@@ -12,9 +12,9 @@ class Settings:
         self.bg_file = Path.cwd() / 'Assets' / 'images' / 'Starbasesnow.png'
         self.scores_file = Path.cwd() / 'Assets' / 'file' / 'scores.json'
 
-        self.ship_file = Path.cwd() / 'Assets' / 'images' / 'ship2(no bg).png'
+        self.ship_file = Path.cwd() / 'Assets' / 'images' / 'ship.png'
         self.ship_w = 90          
-        self.ship_h = 90          
+        self.ship_h = 95          
       
 
         self.bullet_file = Path.cwd() / 'Assets' / 'images' / 'laserBlast.png'
@@ -24,7 +24,7 @@ class Settings:
         
         
 
-        self.alien_file = Path.cwd() / 'Assets' / 'images' / 'enemy_4.png'
+        self.alien_file = Path.cwd() / 'Assets' / 'images' / 'enemy.png'
         self.alien_w  = 40 
         self.alien_h = 40  
         self.fleet_direction = 1 

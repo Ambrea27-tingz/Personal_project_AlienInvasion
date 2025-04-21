@@ -84,6 +84,3 @@ class GameStats():
     def _update_level(self):
         """Advance the game to the next level and update level count."""
         self.level += 1
-        
-       
-

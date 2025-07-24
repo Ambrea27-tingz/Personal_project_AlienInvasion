@@ -13,8 +13,8 @@ class Settings:
         self.scores_file = Path.cwd() / 'Assets' / 'file' / 'scores.json'
 
         self.ship_file = Path.cwd() / 'Assets' / 'images' / 'ship.png'
-        self.ship_w = 70          
-        self.ship_h = 95          
+        self.ship_w = 75          
+        self.ship_h = 115          
       
 
         self.bullet_file = Path.cwd() / 'Assets' / 'images' / 'laserBlast.png'

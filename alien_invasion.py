@@ -76,7 +76,7 @@ class AlienInvasion:
         
 
     def run_game(self):
-        #Game loop
+        """Start the main loop for the game."""
         while self.running:
             self._check_events()    
             if self.game_active:
@@ -89,6 +89,7 @@ class AlienInvasion:
 
 
     def _check_collisions(self):
+        """Check for collisions between the ship, aliens, and projectiles."""
         if self.ship.check_collisions(self.alien_fleet.aliens):
             self._check_game_status()
 

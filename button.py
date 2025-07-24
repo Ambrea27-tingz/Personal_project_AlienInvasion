@@ -27,14 +27,25 @@ class Button:
         self.msg_image_rect.center = self.rect.center
 
     def draw(self):
-        """Draw the button with a glowing edge and its message to the screen."""
+        """Draw the button with hover effect and message text."""
+        mouse_pos = pygame.mouse.get_pos()
+    
+        # Use hover color if mouse is over the button
+        if self.rect.collidepoint(mouse_pos):
+            button_color = self.settings.button_hover_color
+            glow_color = self.settings.button_hover_glow_color
+        else:
+            button_color = self.settings.button_color
+            glow_color = self.settings.button_glow_color
+
+        # Glow edge
         glow_rect = self.rect.inflate(10, 10)
-        pygame.draw.rect(self.screen, self.settings.button_glow_color, glow_rect, border_radius=12)
+        pygame.draw.rect(self.screen, glow_color, glow_rect, border_radius=12)
 
-        #button background with rounded corners
-        pygame.draw.rect(self.screen, self.settings.button_color, self.rect, border_radius=10)
+        # Button background
+        pygame.draw.rect(self.screen, button_color, self.rect, border_radius=10)
 
-        #button text
+        # Button text
         self.screen.blit(self.msg_image, self.msg_image_rect)
 
     def check_click(self, mouse_pos):

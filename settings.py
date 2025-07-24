@@ -32,8 +32,10 @@ class Settings:
 
         self.button_w = 200
         self.button_h = 50
-        self.button_color = (64, 57, 138)           # Indigo Fade
+        self.button_color = (64, 57, 138)               # Indigo Fade
+        self.button_hover_color = (90, 83, 193)       # Hover background         
         self.button_glow_color = (173, 141, 255)    # Soft Lavender (outline glow)
+        self.button_hover_glow_color = (198, 169, 255)    # Hover border
         self.text_color = (244, 241, 251)         # Snow Lavender (text)
         
         self.button_font_size = 48

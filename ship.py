@@ -5,11 +5,12 @@ if TYPE_CHECKING:
     from alien_invasion import AlienInvasion
     from arsenal import Arsenal
 
-class Ship:
+class Ship(pygame.sprite.Sprite):
 
 
     def __init__(self, game: 'AlienInvasion', arsenal: 'Arsenal'):
         """Initialize the player's ship and set its starting position."""
+        super().__init__()
         self.game = game
         self.settings = game.settings
         self.screen = game.screen
@@ -45,7 +46,7 @@ class Ship:
         if self.moving_left and self.rect.left > self.boundaries.left:
            self.x -= temp_speed
 
-        self.rect.x = self.x
+        self.rect.x = int(self.x)
 
     def draw(self):
         """Draw the ship on the screen at its current location."""
@@ -59,7 +60,7 @@ class Ship:
 
     def check_collisions(self, other_group):
          """Check for collisions between the ship and another group of sprites."""
-         if pygame.sprite.spritecollideany(self, other_group):
+         if pygame.sprite.spritecollideany(self, other_group): # type: ignore[arg-type] error
              self._center_ship()
              return True
          return False

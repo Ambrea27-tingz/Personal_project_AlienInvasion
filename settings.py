@@ -32,9 +32,9 @@ class Settings:
 
         self.button_w = 200
         self.button_h = 50
-        self.button_color = (76, 0, 153)           # Deep purple
-        self.button_glow_color = (138, 43, 226)    # Bright violet (outline glow)
-        self.text_color = (173, 216, 230)          # Light cyan text
+        self.button_color = (64, 57, 138)           # Indigo Fade
+        self.button_glow_color = (173, 141, 255)    # Soft Lavender (outline glow)
+        self.text_color = (244, 241, 251)         # Snow Lavender (text)
         
         self.button_font_size = 48
         self.HUD_font_size = 20

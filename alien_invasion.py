@@ -1,14 +1,15 @@
-"""
-Author: Ambrea Williams
+""" 
+CSCI 1511
 
-Unit 13: Lab 14 / Part 3
+Ambrea Williams
 
-Date: 04/17/2025
+Date: July 24,2025
 
 Title: Alien Invasion
 
-Description: A simple game where the player controls a ship and shoots at aliens.
-
+Discription: Alien Invasion is a creative game where the player controls a spaceship
+and tries to annihilate neigboring enemies by shooting down the invading aliens. 
+The game is built using Pygame.
 """
 import sys
 import os
